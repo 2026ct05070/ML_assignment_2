@@ -119,5 +119,6 @@ All with `random_state=42` where applicable. The positive class is `Churn = Yes`
 ## 5. Execution Screenshot
 
 
+[Screenshot 2026-11-24 005328.pdf](https://github.com/user-attachments/files/35295740/Screenshot.2026-11-24.005328.pdf)
 
 <!-- EDIT: screenshot of the run on BITS Virtual Lab goes in the PDF -->
