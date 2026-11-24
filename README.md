@@ -1,7 +1,8 @@
-# ML_assignment_2
-This is a Machine Learning classification assignment using the Bank Marketing dataset and five classification algorithm
+# Telco Customer Churn Prediction - ML Assignment 2
 
-# Telco Customer Churn Prediction Data set
+M.Tech (AIML/DSE) - Machine Learning | BITS Pilani WILP | BITS ID: 2026ct05070
+
+Five classification models (Logistic Regression, Decision Tree, KNN, Naive Bayes, Random Forest) compared on the Telco Customer Churn dataset.
 
 
 ## 1. Problem Statement
@@ -15,7 +16,7 @@ Recall, F1 and Matthews Correlation Coefficient (MCC).
 ## 2. Dataset Description  [1 mark]
 
 - **Source:** Telco Customer Churn (IBM sample data), Kaggle - https://www.kaggle.com/datasets/blastchar/telco-customer-churn
-- **Why this dataset:** <!-- EDIT: 2-3 lines in your own words, e.g. real business problem, mix of numeric and categorical features, a hidden missing-value issue, and an imbalanced target that makes metric choice interesting -->
+- **Why this dataset:** Customer churn is a common, real business problem for telecom companies, so the prediction has a clear practical use. The data has a good mix of numeric and categorical features, a hidden data-quality issue (blank `TotalCharges` values) that must be handled, and an imbalanced target (about 27% churn), which makes metrics beyond accuracy important.
 - **Size:** 7,043 rows x 21 columns (20 features + target) - meets the 12-feature / 1,000-instance requirement.
 - **Target variable:** `Churn` (Yes = customer left, No = stayed) - binary classification.
 - **Feature types:**
@@ -41,20 +42,20 @@ Recall, F1 and Matthews Correlation Coefficient (MCC).
 
 ## 3. GitHub Repository Link  [2 marks]
 
-<!-- EDIT: https://github.com/<your-username>/<repo-name> -->
+https://github.com/2026ct05070/ML_assignment_2
 
-Repository contents:
+Repository structure:
 
 ```
-├── churn_classification.py     # full pipeline: EDA, preprocessing, 5 models, metrics, charts
-├── requirements.txt
+ML_assignment_2/
 ├── README.md
+├── requirements.txt
+├── test_data.csv                  # 20% hold-out test set used for evaluation
+├── model/
+│   └── ML_Assignment2.ipynb       # full code: EDA, preprocessing, 5 models, metrics, charts
 ├── data/
-│   ├── WA_Fn-UseC_-Telco-Customer-Churn.csv   # original dataset
-│   └── test_data.csv                          # 20% hold-out set used for evaluation
+│   └── WA_Fn-UseC_-Telco-Customer-Churn.csv   # original dataset (Kaggle)
 └── outputs/
-    ├── metrics_comparison.csv
-    ├── results_table.md
     ├── class_distribution.png
     ├── metrics_bar_chart.png
     ├── metrics_heatmap.png
@@ -63,14 +64,10 @@ Repository contents:
 
 ### How to run
 
-```bash
-git clone <repo-url>
-cd <repo-name>
-pip install -r requirements.txt
-python churn_classification.py --data data/WA_Fn-UseC_-Telco-Customer-Churn.csv
-```
-
-All results and charts are written to `outputs/`, and the test set to `data/test_data.csv`.
+1. Install the requirements: `pip install -r requirements.txt`
+2. Open `model/ML_Assignment2.ipynb` in Jupyter Notebook, JupyterLab or Google Colab.
+3. Put `data/WA_Fn-UseC_-Telco-Customer-Churn.csv` next to the notebook (or upload it when the notebook asks for the file; in Colab a file picker appears).
+4. Run all cells (Kernel/Runtime -> Run all). The comparison table and charts are produced in the notebook, and `test_data.csv` is written to the working folder.
 
 ## 4. Models Used  [5 marks]
 
@@ -92,7 +89,7 @@ All with `random_state=42` where applicable. The positive class is `Churn = Yes`
 |---|---|---|---|---|---|---|
 | Logistic Regression | 0.8028 | 0.8403 | 0.661 | 0.5242 | 0.5847 | 0.463 |
 | Decision Tree | 0.8 | 0.8308 | 0.6435 | 0.5484 | 0.5922 | 0.4634 |
-| KNN | 0.7744 | 0.8091 | 0.5857 | 0.5054 | 0.5426 | 0.3958 |
+| KNN | 0.7744 | 0.8089 | 0.5857 | 0.5054 | 0.5426 | 0.3958 |
 | Naive Bayes (Gaussian) | 0.6861 | 0.8092 | 0.4501 | 0.836 | 0.5851 | 0.4132 |
 | Random Forest | 0.7986 | 0.8395 | 0.6606 | 0.4919 | 0.5639 | 0.4446 |
 
@@ -114,11 +111,11 @@ All with `random_state=42` where applicable. The positive class is `Churn = Yes`
 | Naive Bayes (Gaussian) | Behaves very differently: highest recall (0.836, 311 of 372 churners found) but lowest precision (0.450) and accuracy (0.686), with 380 false alarms. Its AUC (0.809) is not far behind the others, so its ranking is fine but its probabilities are poorly calibrated. Gaussian assumptions on one-hot features and strongly correlated features (e.g. TotalCharges vs tenure) push it to over-predict churn. It would suit a campaign where missing a churner costs far more than a wasted offer. |
 | Random Forest | Second-best AUC (0.840, almost equal to Logistic Regression) and the highest TN count, but recall is the lowest (0.492) and F1 is only 0.564. On imbalanced data it favours the majority class at the default 0.5 threshold. A lower decision threshold or `class_weight="balanced"` would likely raise recall. |
 
-**Overall:** Logistic Regression is the best all-round model (accuracy, AUC, precision), with Random Forest and Decision Tree close behind. The ensemble did not clearly beat the simple linear model, which suggests the signal in this dataset is mostly linear and simple. Because only 26.5% of customers churn, accuracy alone is misleading (always predicting "No" would score about 73.5%), so AUC, F1 and MCC are the better yardsticks. Which model is "best" depends on the business cost: if retaining a churner is worth more than a wasted offer, Naive Bayes's high recall is attractive; if offers are expensive, Logistic Regression or Random Forest, with higher precision, fit better.
+**Overall Winner:** Logistic Regression is the best all-round model (accuracy, AUC, precision), with Random Forest and Decision Tree close behind. The ensemble did not clearly beat the simple linear model, which suggests the signal in this dataset is mostly linear and simple. Because only 26.5% of customers churn, accuracy alone is misleading (always predicting "No" would score about 73.5%), so AUC, F1 and MCC are the better yardsticks. Which model is "best" depends on the business cost: if retaining a churner is worth more than a wasted offer, Naive Bayes's high recall is attractive; if offers are expensive, Logistic Regression or Random Forest, with higher precision, fit better.
 
 ## 5. Execution Screenshot
 
 
 [Screenshot 2026-11-24 005328.pdf](https://github.com/user-attachments/files/35295740/Screenshot.2026-11-24.005328.pdf)
 
-<!-- EDIT: screenshot of the run on BITS Virtual Lab goes in the PDF -->
+Screenshots of the notebook executed on the BITS Virtual Lab (BITS ID 2026ct05070) are included in the submitted PDF.
