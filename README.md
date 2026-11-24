@@ -106,7 +106,7 @@ All with `random_state=42` where applicable. The positive class is `Churn = Yes`
 
 ### Observations on model performance  [3 marks]
 
-| Model | Observation |
+| Model | Observations |
 |---|---|
 | Logistic Regression | Best overall balance: highest accuracy (0.803) and AUC (0.840) with the best precision (0.661, tied with Random Forest). It catches 195 of 372 churners (recall 0.524). Churn here is driven mostly by tenure, contract type and monthly charges, which a linear model captures well, and it is fast and interpretable. |
 | Decision Tree | Accuracy (0.800) and AUC (0.831) are very close to Logistic Regression, and it has the best F1 (0.592) and MCC (0.463). Limiting depth (6) and leaf size (20) kept it from overfitting. Its lower AUC means its probability ranking is a bit coarser, since a tree outputs only a few distinct probabilities. |
